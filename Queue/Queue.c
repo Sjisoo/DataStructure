@@ -62,14 +62,19 @@ void pop(Queue** front, Queue** rear)
         printf("Error: runtime error");
         return;        
     }
-    else if (*front == *rear)
+    else 
     {
-        *front = *rear = NULL;
+        if (*front == *rear)
+        {
+            *front = *rear = NULL;
+        }
+        else
+        {
+            *front = originFront->link;
+        }
+        free(originFront);
     }
-    else
-    {
-        *front = originFront->link;
-    }
+    
 }
 
 void queue_front(Queue* currentFront)
