@@ -18,11 +18,12 @@ ListNode* makeNode(int val)
 void addNode(ListNode** head, int newValue);
 void deleteNode(ListNode** head, int value);
 void peek(ListNode* ptr);
+void insert(ListNode** head, int beforeValue, int newValue);
 // void recoverNode(ListNode** node);
 
 int main()
 {
-    ListNode *head = 0, *tail = 0;
+    ListNode *head = 0;
 
     addNode(&head, 10);
     addNode(&head, 20);
@@ -37,7 +38,9 @@ int main()
     deleteNode(&head, 30);
     peek(head);
     deleteNode(&head, 10);
+    insert(&head, 40, 45);
     peek(head);
+    printFront(head);
 }
 
 void addNode(ListNode** head, int newValue)
@@ -123,19 +126,24 @@ void deleteNode(ListNode** head, int value)
 
 void insert(ListNode** head, int beforeValue, int newValue)
 {
+    ListNode* newNode = makeNode(newValue);
+    ListNode* originNowNode = *head;
+
     if ((*head) == NULL)
     {
-        ListNode* newNode = makeNode(newValue);
         *head = newNode;
     }
     else if ((*head)->element == beforeValue)
     {
-        ListNode* newNode = makeNode(newValue);
+        newNode->next = originNowNode->next;
+        newNode->prev = originNowNode;
 
+        originNowNode->next = newNode;
+        originNowNode->next->prev = newNode;
     }
     else
     {
-        return insert((*head)->next,beforeValue,newValue);
+        return insert(&(*head)->next,beforeValue,newValue);
     }   
 }
 
