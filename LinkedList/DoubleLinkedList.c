@@ -18,10 +18,11 @@ ListNode* makeNode(int val)
 void addNode(ListNode** head, int newValue);
 void deleteNode(ListNode** head, int value);
 void peek(ListNode* ptr);
+// void recoverNode(ListNode** node);
 
 int main()
 {
-    ListNode* head = 0;
+    ListNode *head = 0, *tail = 0;
 
     addNode(&head, 10);
     addNode(&head, 20);
@@ -32,6 +33,7 @@ int main()
     peek(head);
     deleteNode(&head, 60);
     peek(head);
+    // recoverNode(&head);
     deleteNode(&head, 30);
     peek(head);
     deleteNode(&head, 10);
@@ -119,6 +121,24 @@ void deleteNode(ListNode** head, int value)
     
 }
 
+void insert(ListNode** head, int beforeValue, int newValue)
+{
+    if ((*head) == NULL)
+    {
+        ListNode* newNode = makeNode(newValue);
+        *head = newNode;
+    }
+    else if ((*head)->element == beforeValue)
+    {
+        ListNode* newNode = makeNode(newValue);
+
+    }
+    else
+    {
+        return insert((*head)->next,beforeValue,newValue);
+    }   
+}
+
 void peek(ListNode* ptr)
 {
     ListNode* current = ptr;
@@ -130,8 +150,8 @@ void peek(ListNode* ptr)
     printf("\n");
 }
 
-// void recoverNode(ListNode* node)
+// void recoverNode(ListNode** node)
 // {
-//     node->prev->next = node;
-//     node->next->prev = node;
+//     (*node)->prev->next = (*node)->element;
+//     (*node)->next->prev = (*node)->element;
 // }
