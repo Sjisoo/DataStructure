@@ -56,8 +56,9 @@ void addNode(ListNode** head, int newValue)
     else if ((*head)->next == NULL)
     {
         // 마지막 위치의 node일 경우
+        node->prev = *head;
         (*head)->next = node;
-        (*head)->next->prev = *head;
+        *head = node;
     }
     else
     {
@@ -103,17 +104,6 @@ void deleteNode(ListNode** head, int value)
             *head = (*head)->next;
             (*head)->prev = originHead->prev;
             free(originHead);
-
-            /* 
-            궁금한 점!
-            중간 노드를 빼면 prev, next 노드들의 next, prev 포인터 변경 해줘야 함
-            하지만, 아래 코드 작성 시 두 개의 데이터 삭제 됨
-            -> free를 하면 자동적으로 originHead->prev->next = originHead->next가 되는 것?
-
-            (*head)->prev->next = (*head)->next;
-            (*head)->next->prev = (*head)->prev;
-            *head = (*head)->next;
-            */
         }
     }
     else
