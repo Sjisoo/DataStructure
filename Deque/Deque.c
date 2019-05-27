@@ -37,11 +37,13 @@ int main()
     printAll(front);
 
     pop_front(&front,&back);
-    pop_front(&front,&back);
+    // pop_front(&front,&back);
 
     printf("\n");
 
     printFront(front);
+    
+    printBack(back);
     
     pop_back(&front,&back);
     printBack(back);
@@ -59,8 +61,8 @@ void push_front(Deque** front, Deque** back, int newValue)
     }
     else
     {
+        newFront->next = *front;
         (*front)->prev = newFront;
-        (*front)->prev->next = *front;
         *front = newFront;
     }
 }
@@ -75,16 +77,14 @@ void push_back(Deque** front, Deque** back, int newValue)
     }
     else
     {
+        newBack->prev = *back;
         (*back)->next = newBack;
-        (*back)->next->prev = newBack;
         *back = newBack;
     }
 }
 
 void pop_front(Deque** front, Deque** back)
 {
-    Deque* originFront = *front;
-
     if (*front == NULL && *back == NULL)
     {
         printf("Error: runtime error");        
@@ -92,14 +92,16 @@ void pop_front(Deque** front, Deque** back)
     }
     else 
     {
+        Deque* originFront = *front;
+
         if (*front == *back)
         {
             *front = *back = NULL;
         }
         else
         {
+            (*front)->next->prev = originFront->prev;
             *front = originFront->next;
-            (*front)->prev = originFront->prev;
         }
         free(originFront);
     }
@@ -122,8 +124,8 @@ void pop_back(Deque** front, Deque** back)
         }
         else
         {
+            (*back)->prev->next = originBack->next;
             *back = originBack->prev;
-            (*back)->next = originBack->next;
         }
         free(originBack);
     }
